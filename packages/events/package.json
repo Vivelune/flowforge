@@ -5,6 +5,6 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "lint": "echo 'No lint rules configured yet'"
+    "lint": "eslint --config ../../eslint.config.mjs src"
   }
 }
