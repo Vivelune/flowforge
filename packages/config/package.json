@@ -1,0 +1,25 @@
+{
+  "name": "@flowforge/config",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/env.js",
+  "types": "./dist/env.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/env.d.ts",
+      "import": "./dist/env.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --config ../../eslint.config.mjs src"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43"
+  }
+}
