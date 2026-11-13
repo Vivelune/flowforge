@@ -1,11 +1,5 @@
-import type {
-  RunRecord,
-  RunStatus,
-  StepDefinition,
-  StepRunRecord,
-  StepRunStatus,
-} from '../types.js';
-import type { RunnerRepository } from '../repository.js';
+import type { RunRecord, RunStatus, StepDefinition, StepRunRecord, StepRunStatus } from '../types';
+import type { RunnerRepository } from '../repository';
 
 export interface FakeRepoState {
   runs: Map<string, RunRecord>;

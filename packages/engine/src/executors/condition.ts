@@ -1,6 +1,6 @@
-import type { RunContext } from '../types.js';
-import { conditionConfigSchema } from '../schemas.js';
-import { resolveTemplate } from '../template.js';
+import type { RunContext } from '../types';
+import { conditionConfigSchema } from '../schemas';
+import { resolveTemplate } from '../template';
 
 export interface ConditionResult {
   output: { passed: boolean };

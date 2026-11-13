@@ -1,6 +1,6 @@
-import type { RunContext } from '../types.js';
-import { httpConfigSchema } from '../schemas.js';
-import { resolveTemplate } from '../template.js';
+import type { RunContext } from '../types';
+import { httpConfigSchema } from '../schemas';
+import { resolveTemplate } from '../template';
 
 const MAX_RESPONSE_BYTES = 1024 * 1024;
 

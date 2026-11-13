@@ -1,10 +1,4 @@
-import type {
-  RunRecord,
-  StepDefinition,
-  StepRunRecord,
-  RunStatus,
-  StepRunStatus,
-} from './types.js';
+import type { RunRecord, StepDefinition, StepRunRecord, RunStatus, StepRunStatus } from './types';
 
 export interface RunnerRepository {
   loadRun(runId: string): Promise<RunRecord | null>;

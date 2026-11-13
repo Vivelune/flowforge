@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@flowforge/db": ["../../packages/db/src/index.ts"],
+      "@flowforge/engine": ["../../packages/engine/src/index.ts"]
     }
   },
   "include": [
