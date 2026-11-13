@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { executeRun } from './runner.js';
-import { createFakeRepo, makeRun, makeStep } from './test/fake-repository.js';
-import type { StepDefinition } from './types.js';
+import { executeRun } from './runner';
+import { createFakeRepo, makeRun, makeStep } from './test/fake-repository';
+import type { StepDefinition } from './types';
 
 function steps(
   ...overrides: Array<Partial<StepDefinition> & { key: string; position: number }>

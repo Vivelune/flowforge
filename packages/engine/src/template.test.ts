@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { resolveTemplate } from './template.js';
-import type { RunContext } from './types.js';
+import { resolveTemplate } from './template';
+import type { RunContext } from './types';
 
 const ctx: RunContext = {
   trigger: { userId: 'u1', count: 3 },

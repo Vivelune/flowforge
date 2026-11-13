@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { conditionExecutor } from './condition.js';
-import type { RunContext } from '../types.js';
+import { conditionExecutor } from './condition';
+import type { RunContext } from '../types';
 
 const ctx: RunContext = {
   trigger: null,
