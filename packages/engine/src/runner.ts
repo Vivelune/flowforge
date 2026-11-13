@@ -1,4 +1,4 @@
-import type { RunContext, StepDefinition } from './types.js';
+import type { RunContext } from './types.js';
 import type { RunnerRepository } from './repository.js';
 import { registry } from './executors/registry.js';
 import { resolveTemplate } from './template.js';
