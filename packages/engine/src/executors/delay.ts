@@ -1,6 +1,6 @@
-import type { RunContext } from '../types.js';
-import { delayConfigSchema } from '../schemas.js';
-import { resolveTemplate } from '../template.js';
+import type { RunContext } from '../types';
+import { delayConfigSchema } from '../schemas';
+import { resolveTemplate } from '../template';
 
 export async function delayExecutor(config: unknown, context: RunContext): Promise<unknown> {
   const resolved = resolveTemplate(config, context);

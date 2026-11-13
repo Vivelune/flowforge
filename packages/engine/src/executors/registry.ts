@@ -1,8 +1,8 @@
-import type { RunContext, StepType } from '../types.js';
-import { httpExecutor } from './http.js';
-import { transformExecutor } from './transform.js';
-import { conditionExecutor } from './condition.js';
-import { delayExecutor } from './delay.js';
+import type { RunContext, StepType } from '../types';
+import { httpExecutor } from './http';
+import { transformExecutor } from './transform';
+import { conditionExecutor } from './condition';
+import { delayExecutor } from './delay';
 
 export interface ExecutorResult {
   output: unknown;

@@ -1,8 +1,8 @@
-import type { RunContext } from './types.js';
-import type { RunnerRepository } from './repository.js';
-import { registry } from './executors/registry.js';
-import { resolveTemplate } from './template.js';
-import type { ConditionResult } from './executors/condition.js';
+import type { RunContext } from './types';
+import type { RunnerRepository } from './repository';
+import { registry } from './executors/registry';
+import { resolveTemplate } from './template';
+import type { ConditionResult } from './executors/condition';
 
 export async function executeRun(runId: string, repo: RunnerRepository): Promise<void> {
   const run = await repo.loadRun(runId);

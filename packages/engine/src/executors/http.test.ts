@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { httpExecutor } from './http.js';
-import type { RunContext } from '../types.js';
+import { httpExecutor } from './http';
+import type { RunContext } from '../types';
 
 const emptyCtx: RunContext = { trigger: null, steps: {} };
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { httpConfigSchema, conditionConfigSchema, delayConfigSchema } from './schemas.js';
+import { httpConfigSchema, conditionConfigSchema, delayConfigSchema } from './schemas';
 
 describe('httpConfigSchema', () => {
   it('accepts a minimal valid config and applies defaults', () => {
