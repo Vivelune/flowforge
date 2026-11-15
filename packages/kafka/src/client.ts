@@ -1,12 +1,12 @@
-import { Kafka } from '@confluentinc/kafka-javascript/types/kafkajs.js';
+import { KafkaJS } from '@confluentinc/kafka-javascript';
 import { loadKafkaConfig } from './config.js';
 
-let kafkaClient: Kafka | null = null;
+let kafkaClient: KafkaJS.Kafka | null = null;
 
-export function getKafkaClient(): Kafka {
+export function getKafkaClient(): KafkaJS.Kafka {
   if (kafkaClient) return kafkaClient;
   const config = loadKafkaConfig();
-  kafkaClient = new Kafka({
+  kafkaClient = new KafkaJS.Kafka({
     kafkaJS: {
       brokers: config.KAFKA_BROKERS,
       clientId: config.KAFKA_CLIENT_ID,

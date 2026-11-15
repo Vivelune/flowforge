@@ -13,7 +13,7 @@ export async function createConsumer<T = unknown>(options: ConsumerOptions<T>) {
     kafkaJS: {
       groupId: options.groupId,
       autoCommit: false,
-      fromBeginning: false,
+      fromBeginning: true,
     },
   });
 

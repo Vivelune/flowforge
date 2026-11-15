@@ -1,4 +1,12 @@
 packages:
-  - 'apps/*'
-  - 'packages/*'
-  - 'tools/*'
+  - apps/*
+  - packages/*
+  - tools/*
+
+onlyBuiltDependencies:
+  - '@confluentinc/kafka-javascript'
+
+ignoredBuiltDependencies:
+  - '@prisma/engines'
+  - esbuild
+  - prisma
