@@ -1,0 +1,59 @@
+name: flowforge
+
+services:
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.2.1
+    container_name: flowforge-redpanda
+    command:
+      - redpanda start
+      - --mode dev-container
+      - --smp 1
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+      - --pandaproxy-addr internal://0.0.0.0:28082,external://0.0.0.0:18082
+      - --advertise-pandaproxy-addr internal://redpanda:28082,external://localhost:18082
+      - --schema-registry-addr internal://0.0.0.0:28081,external://0.0.0.0:18081
+      - --rpc-addr redpanda:33145
+      - --advertise-rpc-addr redpanda:33145
+    ports:
+      - '19092:19092'
+      - '18081:18081'
+      - '18082:18082'
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
+    healthcheck:
+      test: ['CMD-SHELL', "rpk cluster health | grep -E 'Healthy|true' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  console:
+    image: docker.redpanda.com/redpandadata/console:v2.7.2
+    container_name: flowforge-console
+    environment:
+      CONFIG_FILEPATH: /tmp/redpanda-console-config.yaml
+    entrypoint: /bin/sh
+    command: >
+      -c 'printf "kafka:\n  brokers: [\"redpanda:9092\"]\n" > /tmp/redpanda-console-config.yaml && /app/console'
+    ports:
+      - '8080:8080'
+    depends_on:
+      redpanda:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    container_name: flowforge-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  redpanda_data:
+  redis_data:
