@@ -11,7 +11,13 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "infra:up": "docker compose -f infra/docker/docker-compose.yml up -d",
+    "infra:down": "docker compose -f infra/docker/docker-compose.yml down",
+    "infra:reset": "docker compose -f infra/docker/docker-compose.yml down -v",
+    "infra:ps": "docker compose -f infra/docker/docker-compose.yml ps",
+    "infra:logs": "docker compose -f infra/docker/docker-compose.yml logs -f",
+    "dev:infra": "pnpm infra:up"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs,json,md,yml,yaml}": [
