@@ -2,6 +2,7 @@ import { createProducer, createConsumer } from '@flowforge/kafka';
 
 const TOPIC = 'playground-redelivery';
 const GROUP = 'redelivery-group';
+const CRASH_ON_ID = 3;
 
 async function produce() {
   const producer = await createProducer();
@@ -11,30 +12,39 @@ async function produce() {
       key: `msg-${i}`,
       value: { id: i },
     });
+    console.log(`Produced message ${i}`);
   }
   await producer.disconnect();
 }
 
 async function consume() {
-  let processed = 0;
-  const consumer = await createConsumer<{ id: number }>({
+  const seen = new Set<number>();
+
+  await createConsumer<{ id: number }>({
     groupId: GROUP,
     topics: [TOPIC],
     handler: async ({ value }) => {
       console.log(`Processing message ${value.id}...`);
-      processed++;
+      seen.add(value.id);
 
-      if (processed === 2) {
-        console.error('💥 Simulating crash before commit!');
-        process.exit(1); // Exits before commitOffsets runs
+      // Deterministic crash: process message 3, then die before commitOffsets runs
+      if (value.id === CRASH_ON_ID) {
+        console.error(`💥 Simulating crash before commit on message ${CRASH_ON_ID}!`);
+        process.exit(1);
       }
 
-      if (processed === 5) {
-        console.log('✅ All 5 messages processed. Check for redelivery on restart.');
+      // Only exit once all 5 messages have been observed
+      if (seen.size === 5) {
+        console.log('✅ All 5 messages processed.');
         process.exit(0);
       }
     },
   });
+
+  setTimeout(() => {
+    console.error(`Timeout. Seen so far: [${[...seen].sort().join(', ')}]`);
+    process.exit(1);
+  }, 20000);
 }
 
 async function main() {

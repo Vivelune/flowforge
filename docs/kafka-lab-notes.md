@@ -316,3 +316,46 @@ In other words, lag represents the number of messages that a consumer group has 
 A high consumer lag indicates that consumers are falling behind the rate at which messages are being produced.
 
 An `Empty` consumer group can still have lag because its previously committed offsets are retained even when no consumers are currently connected.
+
+## Code Experiments
+
+These scripts use `@flowforge/kafka` against the local Redpanda broker. Each experiment resets the topic before running so counts are deterministic.
+
+### Experiment A: Ordering (tools/playground/src/ordering.ts)
+
+Produces 5 runs × 20 events, keyed by `runId`. Consumes and verifies that seq increases per key.
+
+- **Result:** `Total received: 100, Violations: 0, ✅ Ordering preserved per key.`
+- **Proves:** Same key → same partition → strict ordering.
+
+**Gotcha encountered:** The first run left 100 messages in the topic. The second run produced another 100, so the consumer saw `run-1 seq 1` twice and reported 2 "violations." Not a Kafka bug — the test needs a fresh topic per run.
+
+**Also encountered:** `fromBeginning: false` combined with a group that had committed offsets caused the consumer to sit idle and time out. Switching to `fromBeginning: true` fixed it for playground experiments.
+
+### Experiment B: Group Scaling (tools/playground/src/rebalance.ts)
+
+Starts 1 → 2 → 3 → 4 consumers in the same group on a 3-partition topic, logging partition assignments.
+
+- **Observed:** 1 consumer got all 3 partitions; 2 consumers split 2/1; 3 split 1/1/1; 4 left one consumer idle.
+- **Proves:** Parallelism is capped by partition count. This is what Phase 6 (KEDA) will run into — you cannot scale beyond the number of partitions.
+
+### Experiment C: Redelivery (tools/playground/src/redelivery.ts)
+
+Consumer crashes mid-batch _before_ committing. Restart and observe redelivery.
+
+- **Result:** Second run re-processed message 2, which had already been processed before the crash.
+- **Proves:** At-least-once delivery. A crash between processing and committing results in duplicate delivery.
+- **Implication for Phase 3:** Idempotency must be enforced by the database, not by the in-memory `seen IDs` set. The in-memory set only works until the process restarts.
+
+### Experiment B: Group Scaling (tools/playground/src/rebalance.ts)
+
+Started 1 → 2 → 3 → 4 consumers in group `scaling-group` on a 3-partition topic.
+
+- **1 consumer:** raw assignment `[0, 1, 2]`
+- **2 consumers:** split into `[1]` and `[0, 2]`
+- **3 consumers:** split into `[1]`, `[0]`, `[2]`
+- **4 consumers:** `[2]`, `[1]`, `[]`, `[0]` — Consumer 3 got `Local: Assign partitions and 0 partition(s)`
+
+**Proves:** Parallelism is capped by partition count. One consumer sits idle on a 3-partition topic with 4 consumers. This is the constraint KEDA will hit in Phase 6.
+
+**Client quirk:** `@confluentinc/kafka-javascript` does not implement `consumer.events.on('GROUP_JOIN')` — it throws `Not implemented`. The client-side `consumer.assignment()` works once the rebalance settles. The logs above are the raw assignment arrays from `consumer.assignment()`.
