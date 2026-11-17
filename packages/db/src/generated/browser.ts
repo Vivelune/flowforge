@@ -36,3 +36,13 @@ export type Run = Prisma.RunModel;
  *
  */
 export type StepRun = Prisma.StepRunModel;
+/**
+ * Model OutboxEvent
+ *
+ */
+export type OutboxEvent = Prisma.OutboxEventModel;
+/**
+ * Model ProcessedEvent
+ *
+ */
+export type ProcessedEvent = Prisma.ProcessedEventModel;

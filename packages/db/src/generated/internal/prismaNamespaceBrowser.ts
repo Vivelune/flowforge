@@ -52,6 +52,8 @@ export const ModelName = {
   Step: 'Step',
   Run: 'Run',
   StepRun: 'StepRun',
+  OutboxEvent: 'OutboxEvent',
+  ProcessedEvent: 'ProcessedEvent',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -128,6 +130,31 @@ export const StepRunScalarFieldEnum = {
 
 export type StepRunScalarFieldEnum =
   (typeof StepRunScalarFieldEnum)[keyof typeof StepRunScalarFieldEnum];
+
+export const OutboxEventScalarFieldEnum = {
+  id: 'id',
+  seq: 'seq',
+  topic: 'topic',
+  key: 'key',
+  headers: 'headers',
+  payload: 'payload',
+  createdAt: 'createdAt',
+  publishedAt: 'publishedAt',
+  attempts: 'attempts',
+  lastError: 'lastError',
+} as const;
+
+export type OutboxEventScalarFieldEnum =
+  (typeof OutboxEventScalarFieldEnum)[keyof typeof OutboxEventScalarFieldEnum];
+
+export const ProcessedEventScalarFieldEnum = {
+  consumer: 'consumer',
+  eventId: 'eventId',
+  processedAt: 'processedAt',
+} as const;
+
+export type ProcessedEventScalarFieldEnum =
+  (typeof ProcessedEventScalarFieldEnum)[keyof typeof ProcessedEventScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

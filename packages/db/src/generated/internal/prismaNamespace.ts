@@ -394,6 +394,8 @@ export const ModelName = {
   Step: 'Step',
   Run: 'Run',
   StepRun: 'StepRun',
+  OutboxEvent: 'OutboxEvent',
+  ProcessedEvent: 'ProcessedEvent',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -413,7 +415,7 @@ export type TypeMap<
     omit: GlobalOmitOptions;
   };
   meta: {
-    modelProps: 'workflow' | 'step' | 'run' | 'stepRun';
+    modelProps: 'workflow' | 'step' | 'run' | 'stepRun' | 'outboxEvent' | 'processedEvent';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -713,6 +715,155 @@ export type TypeMap<
         };
       };
     };
+    OutboxEvent: {
+      payload: Prisma.$OutboxEventPayload<ExtArgs>;
+      fields: Prisma.OutboxEventFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.OutboxEventFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.OutboxEventFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>;
+        };
+        findFirst: {
+          args: Prisma.OutboxEventFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.OutboxEventFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>;
+        };
+        findMany: {
+          args: Prisma.OutboxEventFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>[];
+        };
+        create: {
+          args: Prisma.OutboxEventCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>;
+        };
+        createMany: {
+          args: Prisma.OutboxEventCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.OutboxEventCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>[];
+        };
+        delete: {
+          args: Prisma.OutboxEventDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>;
+        };
+        update: {
+          args: Prisma.OutboxEventUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>;
+        };
+        deleteMany: {
+          args: Prisma.OutboxEventDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.OutboxEventUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.OutboxEventUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>[];
+        };
+        upsert: {
+          args: Prisma.OutboxEventUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OutboxEventPayload>;
+        };
+        aggregate: {
+          args: Prisma.OutboxEventAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOutboxEvent>;
+        };
+        groupBy: {
+          args: Prisma.OutboxEventGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.OutboxEventGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.OutboxEventCountArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.OutboxEventCountAggregateOutputType> | number;
+        };
+      };
+    };
+    ProcessedEvent: {
+      payload: Prisma.$ProcessedEventPayload<ExtArgs>;
+      fields: Prisma.ProcessedEventFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.ProcessedEventFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.ProcessedEventFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>;
+        };
+        findFirst: {
+          args: Prisma.ProcessedEventFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.ProcessedEventFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>;
+        };
+        findMany: {
+          args: Prisma.ProcessedEventFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>[];
+        };
+        create: {
+          args: Prisma.ProcessedEventCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>;
+        };
+        createMany: {
+          args: Prisma.ProcessedEventCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.ProcessedEventCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>[];
+        };
+        delete: {
+          args: Prisma.ProcessedEventDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>;
+        };
+        update: {
+          args: Prisma.ProcessedEventUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>;
+        };
+        deleteMany: {
+          args: Prisma.ProcessedEventDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.ProcessedEventUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.ProcessedEventUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>[];
+        };
+        upsert: {
+          args: Prisma.ProcessedEventUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedEventPayload>;
+        };
+        aggregate: {
+          args: Prisma.ProcessedEventAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProcessedEvent>;
+        };
+        groupBy: {
+          args: Prisma.ProcessedEventGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ProcessedEventGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.ProcessedEventCountArgs<ExtArgs>;
+          result:
+            runtime.Types.Utils.Optional<Prisma.ProcessedEventCountAggregateOutputType> | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -810,6 +961,31 @@ export const StepRunScalarFieldEnum = {
 
 export type StepRunScalarFieldEnum =
   (typeof StepRunScalarFieldEnum)[keyof typeof StepRunScalarFieldEnum];
+
+export const OutboxEventScalarFieldEnum = {
+  id: 'id',
+  seq: 'seq',
+  topic: 'topic',
+  key: 'key',
+  headers: 'headers',
+  payload: 'payload',
+  createdAt: 'createdAt',
+  publishedAt: 'publishedAt',
+  attempts: 'attempts',
+  lastError: 'lastError',
+} as const;
+
+export type OutboxEventScalarFieldEnum =
+  (typeof OutboxEventScalarFieldEnum)[keyof typeof OutboxEventScalarFieldEnum];
+
+export const ProcessedEventScalarFieldEnum = {
+  consumer: 'consumer',
+  eventId: 'eventId',
+  processedAt: 'processedAt',
+} as const;
+
+export type ProcessedEventScalarFieldEnum =
+  (typeof ProcessedEventScalarFieldEnum)[keyof typeof ProcessedEventScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',
@@ -955,6 +1131,16 @@ export type ListEnumStepRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType
   $PrismaModel,
   'StepRunStatus[]'
 >;
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>;
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>;
 
 /**
  * Reference to a field of type 'Float'
@@ -1127,6 +1313,8 @@ export type GlobalOmitConfig = {
   step?: Prisma.StepOmit;
   run?: Prisma.RunOmit;
   stepRun?: Prisma.StepRunOmit;
+  outboxEvent?: Prisma.OutboxEventOmit;
+  processedEvent?: Prisma.ProcessedEventOmit;
 };
 
 /* Types for Logging */
