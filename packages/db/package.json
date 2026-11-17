@@ -19,6 +19,7 @@
     "tsx": "^4.23.15"
   },
   "dependencies": {
+    "@flowforge/events": "workspace:*",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
     "dotenv": "^18.0.10",

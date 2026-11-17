@@ -107,6 +107,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@flowforge/events':
+        specifier: workspace:*
+        version: link:../events
       '@prisma/adapter-pg':
         specifier: ^7.10.1
         version: 7.10.1
