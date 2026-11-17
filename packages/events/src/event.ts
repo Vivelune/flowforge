@@ -1,13 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
-import { eventEnvelopeSchema, EVENT_VERSION } from './envelope.js';
+import { eventEnvelopeSchema, EVENT_VERSION } from './envelope';
 import {
   runRequestedPayload,
   stepExecutePayload,
   stepCompletedPayload,
   stepFailedPayload,
   runCompletedPayload,
-} from './payloads.js';
+} from './payloads';
 
 export class InvalidEventError extends Error {
   constructor(

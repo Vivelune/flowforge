@@ -1,4 +1,5 @@
-import { prisma } from '@flowforge/db';
+import { prisma, enqueueEvent } from '@flowforge/db';
+import { createEvent } from '@flowforge/events';
 import type { StepDefinition } from '@flowforge/engine';
 
 export interface TriggerRunInput {
@@ -6,8 +7,23 @@ export interface TriggerRunInput {
   input?: unknown;
 }
 
-export async function triggerRun({ workflowId, input }: TriggerRunInput) {
-  const workflow = await prisma.workflow.findUnique({
+export interface TriggerRunDeps {
+  findWorkflow: typeof prisma.workflow.findUnique;
+  transaction: typeof prisma.$transaction;
+  enqueue: typeof enqueueEvent;
+  createEvent: typeof createEvent;
+}
+
+export async function triggerRun(
+  { workflowId, input }: TriggerRunInput,
+  deps: TriggerRunDeps = {
+    findWorkflow: prisma.workflow.findUnique.bind(prisma.workflow),
+    transaction: prisma.$transaction.bind(prisma),
+    enqueue: enqueueEvent,
+    createEvent,
+  },
+) {
+  const workflow = await deps.findWorkflow({
     where: { id: workflowId },
     include: { steps: { orderBy: { position: 'asc' } } },
   });
@@ -24,13 +40,24 @@ export async function triggerRun({ workflowId, input }: TriggerRunInput) {
     })),
   };
 
-  return prisma.run.create({
-    data: {
+  return deps.transaction(async (tx) => {
+    const run = await tx.run.create({
+      data: {
+        workflowId: workflow.id,
+        status: 'PENDING',
+        input: input as never,
+        definitionSnapshot: snapshot as never,
+      },
+    });
+
+    const event = deps.createEvent('run.requested', run.id, {
       workflowId: workflow.id,
-      status: 'PENDING',
-      input: input as never,
-      definitionSnapshot: snapshot as never,
-    },
+      input: input ?? null,
+    });
+
+    await deps.enqueue(tx, event);
+
+    return run;
   });
 }
 

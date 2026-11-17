@@ -3,7 +3,12 @@ import type { RunnerRepository } from './repository';
 import { registry } from './executors/registry';
 import { resolveTemplate } from './template';
 import type { ConditionResult } from './executors/condition';
-
+/**
+ * @deprecated Since Phase 3, runs are executed through the Kafka pipeline
+ * (relay → orchestrator → worker). This function is kept for the Phase 1
+ * baseline tests and the `docs/baseline.md` reproduction. Do not call it
+ * from application code.
+ */
 export async function executeRun(runId: string, repo: RunnerRepository): Promise<void> {
   const run = await repo.loadRun(runId);
   if (!run) throw new Error(`Run ${runId} not found`);

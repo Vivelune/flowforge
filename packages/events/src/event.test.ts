@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createEvent, parseEvent, partitionKey, InvalidEventError } from './event.js';
+import { createEvent, parseEvent, partitionKey, InvalidEventError } from './event';
 
 describe('parseEvent', () => {
   it('round-trips a valid event', () => {
