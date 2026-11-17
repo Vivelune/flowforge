@@ -1,4 +1,5 @@
-import { prisma } from '@flowforge/db';
+import { prisma, enqueueEvent } from '@flowforge/db';
+import { createEvent } from '@flowforge/events';
 import type { StepDefinition } from '@flowforge/engine';
 
 export interface TriggerRunInput {
@@ -24,13 +25,24 @@ export async function triggerRun({ workflowId, input }: TriggerRunInput) {
     })),
   };
 
-  return prisma.run.create({
-    data: {
+  return prisma.$transaction(async (tx) => {
+    const run = await tx.run.create({
+      data: {
+        workflowId: workflow.id,
+        status: 'PENDING',
+        input: input as never,
+        definitionSnapshot: snapshot as never,
+      },
+    });
+
+    const event = createEvent('run.requested', run.id, {
       workflowId: workflow.id,
-      status: 'PENDING',
-      input: input as never,
-      definitionSnapshot: snapshot as never,
-    },
+      input: input ?? null,
+    });
+
+    await enqueueEvent(tx, event);
+
+    return run;
   });
 }
 
