@@ -7,8 +7,23 @@ export interface TriggerRunInput {
   input?: unknown;
 }
 
-export async function triggerRun({ workflowId, input }: TriggerRunInput) {
-  const workflow = await prisma.workflow.findUnique({
+export interface TriggerRunDeps {
+  findWorkflow: typeof prisma.workflow.findUnique;
+  transaction: typeof prisma.$transaction;
+  enqueue: typeof enqueueEvent;
+  createEvent: typeof createEvent;
+}
+
+export async function triggerRun(
+  { workflowId, input }: TriggerRunInput,
+  deps: TriggerRunDeps = {
+    findWorkflow: prisma.workflow.findUnique.bind(prisma.workflow),
+    transaction: prisma.$transaction.bind(prisma),
+    enqueue: enqueueEvent,
+    createEvent,
+  },
+) {
+  const workflow = await deps.findWorkflow({
     where: { id: workflowId },
     include: { steps: { orderBy: { position: 'asc' } } },
   });
@@ -25,7 +40,7 @@ export async function triggerRun({ workflowId, input }: TriggerRunInput) {
     })),
   };
 
-  return prisma.$transaction(async (tx) => {
+  return deps.transaction(async (tx) => {
     const run = await tx.run.create({
       data: {
         workflowId: workflow.id,
@@ -35,12 +50,12 @@ export async function triggerRun({ workflowId, input }: TriggerRunInput) {
       },
     });
 
-    const event = createEvent('run.requested', run.id, {
+    const event = deps.createEvent('run.requested', run.id, {
       workflowId: workflow.id,
       input: input ?? null,
     });
 
-    await enqueueEvent(tx, event);
+    await deps.enqueue(tx, event);
 
     return run;
   });

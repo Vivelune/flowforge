@@ -12,10 +12,9 @@
     "typecheck": "turbo run typecheck",
     "format": "prettier --write .",
     "prepare": "husky",
-    "infra:up": "docker compose -f infra/docker/docker-compose.yml up -d",
+    "infra:up": "docker compose -f infra/docker/docker-compose.yml up -d && pnpm topics:create",
     "infra:down": "docker compose -f infra/docker/docker-compose.yml down",
     "infra:reset": "docker compose -f infra/docker/docker-compose.yml down -v",
-    "infra:up": "docker compose -f infra/docker/docker-compose.yml up -d && pnpm topics:create",
     "infra:logs": "docker compose -f infra/docker/docker-compose.yml logs -f",
     "dev:infra": "pnpm infra:up",
     "topics:create": "tsx tools/topics-create.ts"
