@@ -11,4 +11,6 @@ export type * from './models/Workflow';
 export type * from './models/Step';
 export type * from './models/Run';
 export type * from './models/StepRun';
+export type * from './models/OutboxEvent';
+export type * from './models/ProcessedEvent';
 export type * from './commonInputTypes';

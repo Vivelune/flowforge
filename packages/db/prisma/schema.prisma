@@ -106,3 +106,26 @@ model StepRun {
   @@unique([runId, position])
   @@index([runId])
 }
+
+model OutboxEvent {
+  id          String    @id @db.Uuid
+  seq         BigInt    @default(autoincrement())
+  topic       String
+  key         String
+  headers     Json?
+  payload     Json
+  createdAt   DateTime  @default(now())
+  publishedAt DateTime?
+  attempts    Int       @default(0)
+  lastError   String?
+
+  @@index([seq])
+}
+
+model ProcessedEvent {
+  consumer    String
+  eventId     String   @db.Uuid
+  processedAt DateTime @default(now())
+
+  @@id([consumer, eventId])
+}
