@@ -15,9 +15,10 @@
     "infra:up": "docker compose -f infra/docker/docker-compose.yml up -d",
     "infra:down": "docker compose -f infra/docker/docker-compose.yml down",
     "infra:reset": "docker compose -f infra/docker/docker-compose.yml down -v",
-    "infra:ps": "docker compose -f infra/docker/docker-compose.yml ps",
+    "infra:up": "docker compose -f infra/docker/docker-compose.yml up -d && pnpm topics:create",
     "infra:logs": "docker compose -f infra/docker/docker-compose.yml logs -f",
-    "dev:infra": "pnpm infra:up"
+    "dev:infra": "pnpm infra:up",
+    "topics:create": "tsx tools/topics-create.ts"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs,json,md,yml,yaml}": [
@@ -34,10 +35,12 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
+    "@flowforge/kafka": "workspace:*",
     "eslint": "^10.14.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "prettier": "^3.10.0",
+    "tsx": "^4.23.15",
     "turbo": "^2.11.11",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.2"

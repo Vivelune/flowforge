@@ -14,6 +14,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^21.2.4
         version: 21.2.4
+      '@flowforge/kafka':
+        specifier: workspace:*
+        version: link:packages/kafka
       eslint:
         specifier: ^10.14.0
         version: 10.14.0(jiti@2.7.0)
@@ -26,6 +29,9 @@ importers:
       prettier:
         specifier: ^3.10.0
         version: 3.10.0
+      tsx:
+        specifier: ^4.23.15
+        version: 4.23.15
       turbo:
         specifier: ^2.11.11
         version: 2.11.11
